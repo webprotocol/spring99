@@ -3,25 +3,46 @@ package com.example.domain;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Country {
 
+	@NotNull
+	@Size(max=3)
 	private String code;
+	@NotNull
+	@Size(max=52)
 	private String name;
+	@Size(max=20)
 	private String continent;
+	@Size(max=26)
 	private String region;
+	@Digits(integer=8, fraction=2)
 	private BigDecimal surfaceArea;
+	@Digits(integer=6, fraction=0)
 	private BigDecimal indepYear;
+	@Digits(integer=11, fraction=0)
 	private BigDecimal population;
+	@Digits(integer=2, fraction=1)
 	private BigDecimal lifeExpectancy;
+	@Digits(integer=8, fraction=2)
 	private BigDecimal gnp;
+	@Digits(integer=8, fraction=2)
 	private BigDecimal gnpOld;
+	@Size(max=45)
 	private String localName;
+	@Size(max=45)
 	private String governmentForm;
+	@Size(max=60)
 	private String headOfState;
+	@Digits(integer=11, fraction=0)
 	private BigDecimal capital;
+	@Size(max=2)
 	private String code2;
 	private List<City> citys;
 	

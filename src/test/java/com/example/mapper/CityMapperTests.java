@@ -7,6 +7,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import com.example.domain.City;
 import com.example.exception.NotFoundRuntimeException;
@@ -19,9 +22,17 @@ public class CityMapperTests {
 	@Autowired
 	CityMapper mapper;
 	
+	@Autowired
+	Validator validator;
+	
 	@Test
 	public void test00_confirmMapper() {
 		System.out.println("mapper=" + mapper);
+	}
+	
+	@Test
+	public void test00_confirmValidator() {
+		System.out.println("validator=" + validator);
 	}
 	
 	@Test
@@ -86,8 +97,54 @@ public class CityMapperTests {
 		System.out.println(city);
 	}
 	
+	@Test
+	public void test04_insert() {
+		City city = new City();
+		city.setName("xxx");
+		city.setCountryCode("KOR");
+		
+		BindingResult result = new BeanPropertyBindingResult(city, "city");
+		validator.validate(city, result);
+		
+		if (result.hasErrors()) {
+			System.out.println(result);
+			return;
+		}
+		
+		int cnt = mapper.insert(city);
+		System.out.println("cnt=" + cnt);
+		System.out.println("id =" + city.getId());
+		
+	}
 	
 
+	
+	@Test
+	public void test05_updateById() {
+		City city = new City();
+		city.setId(4088);
+		city.setName("xxx");
+		city.setCountryCode("KORR");
+		
+		BindingResult errors = new BeanPropertyBindingResult(city, "city");
+		validator.validate(city, errors);
+		
+		if (errors.hasErrors()) {
+			System.out.println("errors = " + errors);
+			return;
+		}
+		
+		int cnt = mapper.updateById(city);
+		System.out.println("cnt=" + cnt);
+		System.out.println("id =" + city.getId());
+	}
+
+	@Test
+	public void test05_deleteById() {
+		int cnt = mapper.deleteById(4102);
+		System.out.println("cnt=" + cnt);
+	}
+	
 }
 
 

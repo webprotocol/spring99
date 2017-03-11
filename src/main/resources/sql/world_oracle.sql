@@ -11,13 +11,16 @@ set escape on
 drop table city;
 drop table country;
 drop table country_language;
+drop sequence city_id_seq;
+
+create sequence city_id_seq start with 4080;
 
 /*
  * Country
  */
 create table country (
 	code 			char(3 char),						
-	name 			char(52 char),						
+	name 			char(52 char)	not null,						
 	continent		char(20 char)	default 'Asia',		
 	region			char(26 char),						
 	surface_area	number(10,2)	default '0.00',		
@@ -40,7 +43,7 @@ create table country (
  */
 create table city (
 	id				number(11)		not null,
-	name			char(35 char),
+	name			char(35 char)	not null,
 	country_code 	char(3 char),
 	district		char(20 char),
 	population		number(11)		default 0,

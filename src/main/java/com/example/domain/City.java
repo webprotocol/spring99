@@ -2,15 +2,28 @@ package com.example.domain;
 
 import java.math.BigDecimal;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class City {
 
 	private int id;
+	@NotNull
+	@Size(max=35)
 	private String name;
+	@Size(max=3)
 	private String countryCode;
+	@Size(max=20)
 	private String district;
+	@Digits(integer=11, fraction = 0)
 	private BigDecimal population;
 	private Country country;
 	

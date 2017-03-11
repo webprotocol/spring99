@@ -97,4 +97,63 @@
 
 </select>
 
+<insert id="insert">
+	insert into country
+	(	
+		code,
+		name,
+		continent,
+		region,
+		surface_area,
+		indep_year,
+		population,
+		life_expectancy,
+		gnp,
+		gnp_old,
+		local_name,
+		government_form,
+		head_of_state,
+		capital,
+		code2
+	)
+	values
+	(
+		#{code},
+		#{name},
+		#{continent},
+		#{region},
+		#{surfaceArea},
+		#{indepYear},
+		#{population},
+		#{lifeExpectancy},
+		#{gnp},
+		#{gnpOld},
+		#{localName},
+		#{governmentForm},
+		#{headOfState},
+		#{capital},
+		#{code2}
+	)
+</insert>
+
+<update id="updateByCode">
+	update country
+	   set	name			= #{name},
+			continent		= #{continent},
+			region			= #{region},
+			surface_area	= #{surfaceArea},
+			indep_year		= #{indepYear},
+			population		= #{population},
+			life_expectancy	= #{lifeExpectancy},
+			gnp				= #{gnp},
+			gnp_old			= #{gnpOld},
+			local_name		= #{localName},
+			government_form	= #{governmentForm},
+			head_of_state	= #{headOfState},
+			capital			= #{capital},
+			code2			= #{code2}
+	 where code = #{code}	   
+</update>
+
+
 </mapper>
