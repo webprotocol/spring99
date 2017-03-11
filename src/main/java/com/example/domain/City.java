@@ -17,7 +17,7 @@ public class City {
 
 	private int id;
 	@NotNull
-	@Size(max=35)
+	@Size(min=1, max=35)
 	private String name;
 	@Size(max=3)
 	private String countryCode;

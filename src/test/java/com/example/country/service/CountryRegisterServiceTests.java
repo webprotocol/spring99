@@ -1,9 +1,12 @@
 package com.example.country.service;
 
+import java.math.BigDecimal;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -45,22 +48,25 @@ public class CountryRegisterServiceTests {
 	@Test
 	public void test01_register() {
 		Country country = new Country();
-		country.setCode("KK1");
+		country.setCode("K10");
 		country.setName("xxxx");
+		country.setContinent("Europe ");
 		
 		BindingResult errors = new BeanPropertyBindingResult(country, "country");
 		validator.validate(country, errors);
-		
 		if (errors.hasErrors()) {
-			System.out.println(errors);
+			System.out.println("error =" + errors);
 			return;
 		}
 		
 		try {
 			registerService.register(country);
 			System.out.println(searchService.getCountryByCode(country.getCode()));
+			System.out.println("[" + country.getName() + "]");
 		} catch (DuplicateKeyException e) {
-			e.printStackTrace();
+			System.out.println("code 중복 에러");
+		} catch (DataIntegrityViolationException e) {
+			System.out.println(e.getMessage());
 		}
 		
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,7 +19,7 @@ public class Country {
 	@NotNull
 	@Size(max=52)
 	private String name;
-	@Size(max=20)
+	@Pattern(regexp="Asia|Europe|North America|Africa|Oceania|Antarctica|South America", message="Asia|Europe|North America|Africa|Oceania|Antarctica|South America")
 	private String continent;
 	@Size(max=26)
 	private String region;

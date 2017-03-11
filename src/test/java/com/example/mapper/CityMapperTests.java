@@ -101,7 +101,7 @@ public class CityMapperTests {
 	public void test04_insert() {
 		City city = new City();
 		city.setName("xxx");
-		city.setCountryCode("KOR");
+		city.setCountryCode("xxx");
 		
 		BindingResult result = new BeanPropertyBindingResult(city, "city");
 		validator.validate(city, result);
