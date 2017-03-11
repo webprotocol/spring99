@@ -1,4 +1,4 @@
-package com.example.city.service;
+package com.example.country.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -6,20 +6,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.City;
+import com.example.domain.Country;
 import com.example.exception.RegisterFailRuntimeException;
 import com.example.mapper.CityMapper;
+import com.example.mapper.CountryMapper;
 
 @Service
-public class CityRegisterService {
+public class CountryRegisterService {
 	
 	@Autowired
-	CityMapper cityMapper;
+	CountryMapper countryMapper;
 	
 	@Transactional
-	public void register(City city) {
-		int cnt = cityMapper.insert(city);
+	public void register(Country country) {
+		int cnt = countryMapper.insert(country);
 		if (cnt != 1) {
-			throw new RegisterFailRuntimeException("city 등록실패  cnt=" + cnt);
+			throw new RegisterFailRuntimeException("country 등록실패  cnt=" + cnt);
 		}
 	}
 
