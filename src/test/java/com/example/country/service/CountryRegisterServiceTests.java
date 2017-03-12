@@ -66,7 +66,7 @@ public class CountryRegisterServiceTests {
 		try {
 			searchService.getCountryByCode(country.getCode());
 			
-			registerService.register(country);
+//			registerService.register(country);
 			System.out.println(searchService.getCountryByCode(country.getCode()));
 			System.out.println("[" + country.getName() + "]");
 		} catch (NotFoundRuntimeException e) {

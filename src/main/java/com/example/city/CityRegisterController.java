@@ -49,17 +49,12 @@ public class CityRegisterController {
 		log.info("register(" + city + ")");
 		
 		if (errors.hasErrors()) {
-			errors.reject("cityForm.global.error", "errors 야............");
 			System.out.println(errors);
 			return "city/registerForm";
 		}
 		
-		try {
-			cityRegisterService.register(city);
-		} catch (DataIntegrityViolationException e) {
-			errors.rejectValue("countryCodeInvalid", null, "유효한 코드가 아닙니다. 확인하세요");
-		}
-
+		cityRegisterService.register(city, errors);;
+		
 		if (errors.hasErrors()) {
 			System.out.println(errors);
 			return "city/registerForm";

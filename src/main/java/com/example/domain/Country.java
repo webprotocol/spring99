@@ -13,8 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Country {
 
-	@NotNull
-	@Size(max=3)
+
 	private String code;
 	@NotNull
 	@Size(max=52)
@@ -73,6 +72,7 @@ public class Country {
 
 		return str;
 	}
+	
 	
 	public String getCode() {
 		return code;
