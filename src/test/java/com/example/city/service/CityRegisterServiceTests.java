@@ -11,6 +11,7 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import com.example.city.form.CityForm;
 import com.example.domain.City;
 
 @RunWith(SpringRunner.class)
@@ -18,14 +19,22 @@ import com.example.domain.City;
 public class CityRegisterServiceTests {
 
 	@Autowired
-	CityRegisterService service;
+	CityRegisterService cityRegisterService;
+	@Autowired
+	
+	CitySearchService citySearchService;
 	
 	@Autowired
 	Validator validator;
 	
 	@Test
-	public void test00_confirmService() {
-		System.out.println("service=" + service);
+	public void test00_confirmRegisterService() {
+		System.out.println("service=" + cityRegisterService);
+	}
+	
+	@Test
+	public void test00_confirmSearchService() {
+		System.out.println("service=" + citySearchService);
 	}
 	
 	@Test
@@ -35,20 +44,27 @@ public class CityRegisterServiceTests {
 	
 	@Test
 	public void test01_register() {
-		City city = new City();
+		CityForm city = new CityForm();
+				
 		city.setName("xxx");
-		city.setCountryCode("KOR");
+		city.setCountryCode("KOx");
 		
-		BindingResult result = new BeanPropertyBindingResult(city, "city");
-		validator.validate(city, result);
+		BindingResult errors = new BeanPropertyBindingResult(city, "cityForm");
+		validator.validate(city, errors);
 		
-		if (result.hasErrors()) {
-			System.out.println(result);
+		if (errors.hasErrors()) {
+			System.out.println(errors);
 			return;
 		}
 		
-		service.register(city);
-		System.out.println("id =" + city.getId());
+		cityRegisterService.register(city, errors);
+		
+		if (errors.hasErrors()) {
+			System.out.println(errors);
+			return;
+		}
+		
+		System.out.println("id =" +  citySearchService.getCityById(city.getId()));
 		
 	}
 	
