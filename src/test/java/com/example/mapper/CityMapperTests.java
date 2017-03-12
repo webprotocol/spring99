@@ -111,51 +111,56 @@ public class CityMapperTests {
 	
 	@Test
 	public void test04_insert() {
-		CityForm city = new CityForm();
+		City city = new City();
+		BindingResult errors = new BeanPropertyBindingResult(city, "cityForm");
+
 		city.setName("xxxx");
 		city.setCountryCode("KOR");
-		city.setPopulation(new BigDecimal("9999999999999999999"));
-		
-		BindingResult errors = new BeanPropertyBindingResult(city, "cityForm");
-		validator.validate(city, errors);
 		
 		Country country = countryMapper.selectByCode(city.getCountryCode());
-		if (country == null)
-			errors.rejectValue("countryCodeInvalid", null, "유효한 ContryCode가 아닙니다.");
-		
-		if (errors.hasErrors()) {
+		if (country == null) {
+			errors.reject("InvalidCountryCode", null, "유효한 ContryCode가 아닙니다.");
 			System.out.println(errors);
 			return;
 		}
 		
-		int cnt = cityMapper.insert(city);
-		System.out.println("cnt=" + cnt);
+		cityMapper.insert(city);
 		System.out.println(cityMapper.selectById(city.getId()));
 	}
 	
 	@Test
 	public void test05_updateById() {
 		City city = new City();
-		city.setId(4088);
-		city.setName("xxx");
-		city.setCountryCode("xxx");
-
-		try {
-			int cnt = cityMapper.updateById(city);
-			System.out.println("cnt=" + cnt);
-			System.out.println("id =" + city.getId());
-		} catch (DataIntegrityViolationException e) {
-			System.out.println("유효한 ContryCode가 아닙니다.");
-		} catch (Exception e) {
-			System.out.println("발생해서는 안되는 에러입니다. 유효성 검사를 해양한다");
-			e.printStackTrace();
+		BindingResult errors = new BeanPropertyBindingResult(city, "cityForm");
+		
+		int id = 4182;
+		city = cityMapper.selectById(id);
+		if (city == null) {
+			errors.reject("InvalidId", null, "해당 id가 존재하지 않습니다.");
+			System.out.println(errors);
+			return;
 		}
+
+		city.setName("zzzz");
+		city.setCountryCode("KOR");
+
+		Country country = countryMapper.selectByCode(city.getCountryCode());
+		if (country == null) {
+			errors.reject("InvalidCountryCode", null, "유효한 ContryCode가 아닙니다.");
+			System.out.println(errors);
+			return;
+		}
+		
+		cityMapper.updateById(city);
+		System.out.println("id =" + cityMapper.selectById(city.getId()));
 	}
 
 	@Test
 	public void test05_deleteById() {
-		int cnt = cityMapper.deleteById(4102);
+		int id = 4181;
+		int cnt = cityMapper.deleteById(id);
 		System.out.println("cnt=" + cnt);
+		System.out.println("city = " + cityMapper.selectById(id));
 	}
 	
 }

@@ -135,10 +135,10 @@ public class CountryMapperTests {
 	}
 
 	@Test
-	public void test05_deleteById() {
-		int cnt = mapper.deleteByCode("KKK");
+	public void test05_deleteByCode() {
+		int cnt = mapper.deleteByCode("KOR");
 		System.out.println("cnt=" + cnt);
-		System.out.println(mapper.selectByCode("KKK"));
+		System.out.println(mapper.selectByCode("KOR"));
 	}	
 
 

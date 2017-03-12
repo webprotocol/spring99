@@ -142,7 +142,9 @@ offset 2 rows
 	   
 	   
 	   
-	   
+select * from city;	   
+
+
 	   
 	   
 	   

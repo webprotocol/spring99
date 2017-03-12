@@ -48,7 +48,7 @@ create table city (
 	district		char(20 char),
 	population		number(11)		default 0,
 	constraint pk_city primary key (id),
-	constraint fk_country foreign key (country_code) references country(code) 
+	constraint fk_country foreign key (country_code) references country(code) on DELETE SET NULL
 );
 
 /*
