@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -101,49 +102,43 @@ public class CountryMapperTests {
 		Country country = new Country();
 		country.setCode("KKK");
 		country.setName("xxxxxx");
-		country.setLifeExpectancy(new BigDecimal("12.5"));
+		country.setContinent("Asia");
 		
-		BindingResult errors = new BeanPropertyBindingResult(country, "country");
-		validator.validate(country, errors);
-		
-		if (errors.hasErrors()) {
-			System.out.println(errors);
-			return;
+		try {
+			int cnt = mapper.insert(country);
+			System.out.println("cnt=" + cnt);
+			System.out.println(mapper.selectByCode(country.getCode()));
+		} catch (DuplicateKeyException e) {
+			System.out.println("Code 중복 에러");
+		} catch (Exception e) {
+			System.out.println("발생해서는 안되는 에러입니다. 유효성 검사를 해양한다");
+			e.printStackTrace();
 		}
-		
-		int cnt = mapper.insert(country);
-		System.out.println("cnt=" + cnt);
-		System.out.println("code =" + country.getCode());
 		
 	}
 	
-
 	
 	@Test
 	public void test05_updateById() {
 		Country country = new Country();
 		country.setCode("KKK");
 		country.setName("yyyy");
-		country.setLifeExpectancy(new BigDecimal("12.5"));
 		
-		BindingResult errors = new BeanPropertyBindingResult(country, "country");
-		validator.validate(country, errors);
-		
-		if (errors.hasErrors()) {
-			System.out.println(errors);
-			return;
+		try {
+			int cnt = mapper.updateByCode(country);
+			System.out.println("cnt=" + cnt);
+			System.out.println(mapper.selectByCode(country.getCode()));
+		} catch (Exception e) {
+			System.out.println("발생해서는 안되는 에러입니다. 유효성 검사를 해양한다");
+			e.printStackTrace();
 		}
-		
-		int cnt = mapper.updateByCode(country);
-		System.out.println("cnt=" + cnt);
-		System.out.println("code =" + country.getCode());
-		System.out.println(mapper.selectByCode("KKK"));
 	}
 
 	@Test
 	public void test05_deleteById() {
 		int cnt = mapper.deleteByCode("KKK");
 		System.out.println("cnt=" + cnt);
+		System.out.println(mapper.selectByCode("KKK"));
 	}	
 
 

@@ -2,6 +2,7 @@ package com.example.country.service;
 
 import java.math.BigDecimal;
 
+import org.apache.ibatis.javassist.NotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.validation.Validator;
 
 import com.example.domain.City;
 import com.example.domain.Country;
+import com.example.exception.NotFoundRuntimeException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -53,16 +55,22 @@ public class CountryRegisterServiceTests {
 		country.setContinent("Europe ");
 		
 		BindingResult errors = new BeanPropertyBindingResult(country, "country");
+		
 		validator.validate(country, errors);
 		if (errors.hasErrors()) {
 			System.out.println("error =" + errors);
 			return;
 		}
 		
+		
 		try {
+			searchService.getCountryByCode(country.getCode());
+			
 			registerService.register(country);
 			System.out.println(searchService.getCountryByCode(country.getCode()));
 			System.out.println("[" + country.getName() + "]");
+		} catch (NotFoundRuntimeException e) {
+		
 		} catch (DuplicateKeyException e) {
 			System.out.println("code 중복 에러");
 		} catch (DataIntegrityViolationException e) {

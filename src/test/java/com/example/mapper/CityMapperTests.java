@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -103,40 +104,36 @@ public class CityMapperTests {
 		city.setName("xxx");
 		city.setCountryCode("xxx");
 		
-		BindingResult result = new BeanPropertyBindingResult(city, "city");
-		validator.validate(city, result);
-		
-		if (result.hasErrors()) {
-			System.out.println(result);
-			return;
+		try {
+			int cnt = mapper.insert(city);
+			System.out.println("cnt=" + cnt);
+			System.out.println(mapper.selectById(city.getId()));
+		} catch (DataIntegrityViolationException e) {
+			System.out.println("유효한 ContryCode가 아닙니다.");
+		} catch (Exception e) {
+			System.out.println("발생해서는 안되는 에러입니다. 유효성 검사를 해양한다");
+			e.printStackTrace();
 		}
 		
-		int cnt = mapper.insert(city);
-		System.out.println("cnt=" + cnt);
-		System.out.println("id =" + city.getId());
-		
 	}
-	
-
 	
 	@Test
 	public void test05_updateById() {
 		City city = new City();
 		city.setId(4088);
 		city.setName("xxx");
-		city.setCountryCode("KORR");
-		
-		BindingResult errors = new BeanPropertyBindingResult(city, "city");
-		validator.validate(city, errors);
-		
-		if (errors.hasErrors()) {
-			System.out.println("errors = " + errors);
-			return;
+		city.setCountryCode("xxx");
+
+		try {
+			int cnt = mapper.updateById(city);
+			System.out.println("cnt=" + cnt);
+			System.out.println("id =" + city.getId());
+		} catch (DataIntegrityViolationException e) {
+			System.out.println("유효한 ContryCode가 아닙니다.");
+		} catch (Exception e) {
+			System.out.println("발생해서는 안되는 에러입니다. 유효성 검사를 해양한다");
+			e.printStackTrace();
 		}
-		
-		int cnt = mapper.updateById(city);
-		System.out.println("cnt=" + cnt);
-		System.out.println("id =" + city.getId());
 	}
 
 	@Test

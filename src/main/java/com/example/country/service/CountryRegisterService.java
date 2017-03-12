@@ -19,10 +19,8 @@ public class CountryRegisterService {
 	
 	@Transactional
 	public void register(Country country) {
-		int cnt = countryMapper.insert(country);
-		if (cnt != 1) {
-			throw new RegisterFailRuntimeException("country 등록실패  cnt=" + cnt);
-		}
+
+		countryMapper.insert(country);
 	}
 
 }
